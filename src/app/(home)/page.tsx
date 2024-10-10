@@ -8,7 +8,7 @@ export default function Home() {
   
   return (
       
-      <Typography> Domovská stránka  </Typography>
+      <Typography> Domovská stránka</Typography>
       
   );
 }
