@@ -1,5 +1,4 @@
-
-// src/app/api/auth/[...nextauth]/authOptions.ts
+// src/app/api/auth/[...nextauth]/AuthOptions.ts
 
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
@@ -18,8 +17,8 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      // Redirect to home page after sign-in
-      return baseUrl || url; // baseUrl is automatically set from NEXTAUTH_URL in .env
+      return baseUrl || url;
     },
   },
+  debug: true, // Enable debug logging to see errors in the terminal
 };

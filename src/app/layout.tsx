@@ -1,10 +1,13 @@
-import type { Metadata } from "next";
+// src/app/layout.tsx
+
+import { Metadata } from "next";
 import "./globals.css";
-import Navbar from '../components/Navbar'; // Adjust the import path as needed
+import Navbar from "@/components/Navbar";
+import AuthProvider from "../components/AuthProvider";
 
 export const metadata: Metadata = {
   title: "SnapZoška",
-  description: "Ja Filip som toto spravil",
+  description: "Created by students of SPŠE Zochova 9, Bratislava",
 };
 
 export default function RootLayout({
@@ -13,10 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body> 
-        {children}
-        <Navbar /> {/* Include the Navbar here */}
+    <html lang="sk">
+      <body>
+        <AuthProvider>
+          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <main style={{ flexGrow: 1 }}>
+              {children}
+            </main>
+            <Navbar /> {/* Place the Navbar at the bottom of the layout */}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

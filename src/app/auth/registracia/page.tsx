@@ -1,14 +1,22 @@
-// src/app/registracia/page.tsx
+// src/app/auth/registracia/page.tsx
 
+import { signIn } from "next-auth/react";
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export const metadata = {title: "Registrovať sa | Zoska"}
+export const metadata = { title: "Registrácia | Zoska" };
 
-export default function SignUp() {
-  
+export default function Registracia() {
   return (
-      
-      <Typography> Registrácia  </Typography>
-      
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <Typography variant="h4">Registrovať sa</Typography>
+      <Button
+        variant="contained"
+        onClick={() => signIn("google", { callbackUrl: "/" })}
+        style={{ marginTop: '20px' }}
+      >
+        Registrovať sa pomocou Google
+      </Button>
+    </div>
   );
 }
