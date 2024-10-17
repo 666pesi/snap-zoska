@@ -8,7 +8,8 @@ export default function ProfileList() {
   
   return (
       
-      <Typography> Zoznam profilov  </Typography>
+
+      <Typography> Zozznam profilov  </Typography>
       
   );
 }
