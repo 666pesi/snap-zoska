@@ -2,7 +2,7 @@
 
 import { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavBar";
 import AuthProvider from "../components/AuthProvider";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({
             <main style={{ flexGrow: 1 }}>
               {children}
             </main>
-            <Navbar /> {/* Place the Navbar at the bottom of the layout */}
+            <Navbar />  {/* Navbar is placed here */}
           </div>
         </AuthProvider>
       </body>

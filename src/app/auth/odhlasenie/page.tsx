@@ -1,42 +1,35 @@
 // src/app/auth/odhlasenie/page.tsx
 
-"use client";
+"use client"; // Ensure this is a client component
 
-import { Button, Container, Typography } from "@mui/material";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { Container, Button, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function SignOutPage() {
+export default function SignOut() {
+  const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!session) {
+      // Redirect to login if the user is not logged in
+      router.push("/auth/prihlasenie");
+    }
+  }, [session, router]);
 
   const handleSignOut = () => {
     signOut();
-    router.push('/'); // Redirect to home page after signing out
   };
 
   return (
-    <Container
-      maxWidth="xs"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        mt: 5,
-        p: 3,
-        bgcolor: "background.paper",
-        boxShadow: 3,
-        borderRadius: 2,
-      }}
-    >
-      <Typography variant="h5" sx={{ mb: 3 }}>
-        Ste si istí, že sa chcete odhlásiť?
-      </Typography>
-      <Button
-        variant="outlined"
-        onClick={handleSignOut}
-      >
-        Odhlásiť sa
+    <Container>
+      <Typography variant="h4">Odhlásenie</Typography>
+      <Typography>Ste si istý, že sa chcete odhlásiť?</Typography>
+      <Button variant="contained" onClick={handleSignOut}>
+        Áno, odhlásiť sa
       </Button>
+
     </Container>
   );
 }

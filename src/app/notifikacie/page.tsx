@@ -1,14 +1,16 @@
 // src/app/notifikacie/page.tsx
 
-import Typography from '@mui/material/Typography';
 
-export const metadata = {title: "Upozornenina | Zoska"}
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 
-export default function Notifications() {
-  
+export const metadata = { title: "Notifikácie | ZoškaSnap" };
+
+export default function Notification() {
+
   return (
-      
-      <Typography> Notifikácie  </Typography>
-      
+    <Container>
+      <Typography> Notifikácie </Typography>
+    </Container>
   );
 }

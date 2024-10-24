@@ -1,22 +1,16 @@
 // src/app/(home)/page.tsx
 
-"use client"; // Indicate this is a client component
 
-import Typography from '@mui/material/Typography';
-import { useSession } from 'next-auth/react';
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
+import AuthHomeView from "@/components/AuthHomeView";
+import NonAuthHomeView from "@/components/NonAuthHomeView";
 
-export default function Home() {
-  const { data: session } = useSession();
+export const metadata = { title: "Domov | ZoškaSnap" };
 
-  return (
-    <>
-      {session ? (
-        <Typography variant="h4" sx={{ mt: 5 }}>
-          Welcome, {session.user?.name}!
-        </Typography>
-      ) : (
-        <Typography variant="h5">Domovská stránka</Typography>
-      )}
-    </>
-  );
+export default async function HomePage() {
+  // Fetch session on the server
+  const session = await getServerSession(authOptions);
+
+  return session ? <AuthHomeView session={session} /> : <NonAuthHomeView />;
 }

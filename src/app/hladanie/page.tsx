@@ -1,14 +1,16 @@
 // src/app/hladanie/page.tsx
 
-import Typography from '@mui/material/Typography';
 
-export const metadata = {title: "Vyhladat profil | Zoska"}
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+
+export const metadata = { title: "Hľadať | ZoškaSnap" };
 
 export default function Search() {
-  
+
   return (
-      
-      <Typography> Vyhladavanie  </Typography>
-      
+    <Container>
+      <Typography> Hľadať </Typography>
+    </Container>
   );
 }
