@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
     signOut: '/auth/odhlasenie',
   },
   callbacks: {
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+    async redirect() {
       return "http://localhost:3000/prispevok"
     },
   },
