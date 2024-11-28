@@ -1,65 +1,57 @@
-// src/components/Navbar.tsx
-
-"use client";
+"use client"; // This marks the component as a client component
 
 import * as React from 'react';
-import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import Box from '@mui/material/Box';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import PersonIcon from '@mui/icons-material/Person';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+// Define paths for unauthenticated users
+const unauthPaths = [
+  { label: "Domov", icon: <HomeIcon />, path: '/' },
+  { label: "Profily", icon: <PersonIcon />, path: '/profil' },
+  { label: "Prihlásenie", icon: <LoginIcon />, path: '/auth/prihlasenie' },
+  { label: "Registrácia", icon: <AppRegistrationIcon />, path: '/auth/registracia' },
+];
+
+// Define paths for authenticated users
+const authPaths = [
+  { label: "Domov", icon: <HomeIcon />, path: '/' },
+  { label: "Profily", icon: <PersonIcon />, path: '/profil' },
+  { label: "Príspevky", icon: <PostAddIcon />, path: '/prispevok' },
+  { label: "Odhlásenie", icon: <LogoutIcon />, path: '/auth/odhlasenie' }, // Correct path to logout
+];
 
 export default function Navbar() {
-  const [value, setValue] = React.useState('/');
-  const { data: session } = useSession();
+  const { data: session } = useSession(); // Get session data
+  const [value, setValue] = React.useState(0);
   const router = useRouter();
 
-  const handleNavigation = (event: React.SyntheticEvent, newValue: string) => {
-    console.log(`Navigating to: ${newValue}`);
-    setValue(newValue);
-    router.push(newValue); 
-  };
-
-  const commonLinks = [
-    { label: "Domov", value: "/", icon: <HomeIcon /> },
-    { label: "Profily", value: "/profil", icon: <AccountCircleIcon /> },
-    { label: "Príspevky", value: "/prispevok", icon: <AddCircleIcon /> },
-  ];
-
-  const loggedOutLinks = [
-    { label: "Prihlásenie", value: "/auth/prihlasenie", icon: <LoginIcon /> },
-    { label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
-  ];
-
-  const loggedInLinks = [
-    { label: "Odhlásiť sa", value: "/auth/odhlasenie", icon: <LoginIcon /> },
-  ];
+  // Determine which paths to show based on session state
+  const navItems = session ? authPaths : unauthPaths;
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', position: 'fixed', bottom: 0, left: 0 }}>
       <BottomNavigation
         showLabels
         value={value}
-        onChange={handleNavigation}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
       >
-        {commonLinks.map(link => (
+        {navItems.map((item, index) => (
           <BottomNavigationAction 
-            key={link.value} 
-            label={link.label} 
-            value={link.value} 
-            icon={link.icon} 
-          />
-        ))}
-        
-        {(session ? loggedInLinks : loggedOutLinks).map(link => (
-          <BottomNavigationAction 
-            key={link.value} 
-            label={link.label} 
-            value={link.value} 
-            icon={link.icon} 
+            key={index}
+            label={item.label} 
+            icon={item.icon} 
+            onClick={() => router.push(item.path)} 
           />
         ))}
       </BottomNavigation>
