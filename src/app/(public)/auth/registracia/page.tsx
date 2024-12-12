@@ -12,12 +12,23 @@ import { useTheme } from "@/components/ThemeProvider";
 const RegisterPage = () => {
   const { isDarkMode, toggleDarkMode } = useTheme(); 
   const [isGDPRChecked, setIsGDPRChecked] = useState(false); 
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleGoogleLogin = async () => {
+    if (!isGDPRChecked) {
+      setErrorMessage("Musíte súhlasiť s GDPR a podmienkami.");
+      return;
+    }
+    setErrorMessage(""); // Clear error
     await signIn("google");
   };
 
   const handleGitHubLogin = async () => {
+    if (!isGDPRChecked) {
+      setErrorMessage("Musíte súhlasiť s GDPR a podmienkami.");
+      return;
+    }
+    setErrorMessage(""); // Clear error
     await signIn("github");
   };
 
@@ -31,7 +42,6 @@ const RegisterPage = () => {
         backgroundColor: "transparent", 
       }}
     >
-      {}
       <Box
         sx={{
           display: "flex",
@@ -56,7 +66,7 @@ const RegisterPage = () => {
             fontSize: "1.5rem",
           }}
         >
-          Create Your Account
+          Vytvorte si účet!
         </Typography>
 
         <FormControlLabel
@@ -65,7 +75,7 @@ const RegisterPage = () => {
               checked={isGDPRChecked}
               onChange={(e) => setIsGDPRChecked(e.target.checked)}
               sx={{
-                color: isDarkMode ? "#fff" : "#333",
+                color: isDarkMode ? "#fff" : "#333",  
                 "&.Mui-checked": {
                   color: "#1976d2", 
                 },
@@ -79,7 +89,7 @@ const RegisterPage = () => {
                 fontSize: "0.7rem",
               }}
             >
-              I agree to the{" "} 
+              Súslasím s{" "} 
               <Link href="/gdpr" passHref>
                 <Typography 
                   component="span"
@@ -92,10 +102,10 @@ const RegisterPage = () => {
                     },
                   }}
                 >
-                  GDPR terms
+                  GDPR
                 </Typography>
-              </Link>
-              {" "}and{" "}
+              </Link> 
+              {" "}a{" "}
               <Link href="/podmienky" passHref>
                 <Typography 
                   component="span"
@@ -115,6 +125,18 @@ const RegisterPage = () => {
           }
         />
 
+        {errorMessage && (
+          <Typography
+            sx={{
+              color: "red",
+              fontSize: "0.8rem",
+              marginBottom: "10px",
+            }}
+          >
+            {errorMessage}
+          </Typography>
+        )}
+
         <Button
           variant="contained"
           color="primary"
@@ -129,12 +151,13 @@ const RegisterPage = () => {
             padding: "12px",
             borderRadius: "50px",
             transition: "all 0.3s ease",
+            backgroundColor: isGDPRChecked ? "#4285f4" : "#b0bec5", // Default gray if not checked
             "&:hover": {
-              backgroundColor: "#4285f4",
+              backgroundColor: isGDPRChecked ? "#4285f4" : "#b0bec5", 
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
             },
           }}
-          disabled={!isGDPRChecked} 
+          disabled={!isGDPRChecked}
         >
           <Image
             src={GoogleIcon}
@@ -143,7 +166,7 @@ const RegisterPage = () => {
             height={20}
             style={{ marginRight: "12px" }}
           />
-          Register with Google
+          Registrovať google
         </Button>
 
         <Button
@@ -159,12 +182,13 @@ const RegisterPage = () => {
             padding: "12px",
             borderRadius: "50px",
             transition: "all 0.3s ease",
+            backgroundColor: isGDPRChecked ? "#333" : "#b0bec5", // Default gray if not checked
             "&:hover": {
-              backgroundColor: "#333", 
+              backgroundColor: isGDPRChecked ? "#333" : "#b0bec5", 
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
             },
           }}
-          disabled={!isGDPRChecked} 
+          disabled={!isGDPRChecked}
         >
           <Image
             src={GitHubIcon}
@@ -173,7 +197,7 @@ const RegisterPage = () => {
             height={20}
             style={{ marginRight: "12px" }}
           />
-          Register with GitHub
+          Registrovať github
         </Button>
 
         <Typography
@@ -183,7 +207,7 @@ const RegisterPage = () => {
             fontSize: "0.9rem",
           }}
         >
-          Already have an account?{" "}
+          Už máte úćet?{" "}
           <Link href="/auth/prihlasenie" passHref>
             <Typography
               component="span"
@@ -196,12 +220,11 @@ const RegisterPage = () => {
                 },
               }}
             >
-              Login
+              Prihlasenie
             </Typography>
           </Link>
         </Typography>
 
-        {}
         <IconButton
           sx={{
             position: "absolute",

@@ -46,7 +46,7 @@ const LoginPage = () => {
           color: isDarkMode ? '#fff' : '#333',
           fontSize: '1.5rem',
         }}>
-          Login to Your Account
+          Prihlaste sa
         </Typography>
 
         <Button
@@ -70,7 +70,7 @@ const LoginPage = () => {
           }}
         >
           <Image src={GoogleIcon} alt="Google" width={20} height={20} style={{ marginRight: '12px' }} />
-          Login with Google
+          Prihlasenie google
         </Button>
 
         <Button
@@ -93,7 +93,7 @@ const LoginPage = () => {
           }}
         >
           <Image src={GitHubIcon} alt="GitHub" width={20} height={20} style={{ marginRight: '12px' }} />
-          Login with GitHub
+          Prihlasenie GITHUB
         </Button>
 
         <Typography sx={{
@@ -101,7 +101,7 @@ const LoginPage = () => {
           color: isDarkMode ? '#bbb' : '#555',
           fontSize: '0.9rem',
         }}>
-          Not signed in?{' '}
+          Nemáte účet?{' '}
           <Link href="/auth/registracia" passHref>
             <Typography component="span" sx={{
               color: '#1976d2',
@@ -111,7 +111,7 @@ const LoginPage = () => {
                 textDecoration: 'underline',
               },
             }}>
-              Sign Up
+              REGISTRACIA
             </Typography>
           </Link>
         </Typography>

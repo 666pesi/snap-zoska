@@ -1,4 +1,4 @@
-"use client"; // This marks the component as a client component
+"use client"; 
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
@@ -19,12 +19,26 @@ const unauthPaths = [
   { label: "Registrácia", icon: <FaUserPlus />, path: '/auth/registracia' },
 ];
 
-const authPaths = [
+const authPaths = (userImage: string | undefined) => [
   { label: "Domov", icon: <FaHome />, path: '/' },
   { label: "Profily", icon: <FaUser />, path: '/profil' },
   { label: "Hľadanie", icon: <FaSearch />, path: '/hladanie' },
+  {
+    label: "Profil",
+    icon: (
+      <Image
+        src={userImage || '/default-avatar.png'}
+        alt="Profile"
+        width={30}
+        height={30}
+        style={{ borderRadius: '50%' }}
+      />
+    ),
+    path: '/profil',
+  },
   { label: "Príspevky", icon: <FaPlusSquare />, path: '/prispevok' },
   { label: "Odhlásenie", icon: <FaSignOutAlt />, path: '/auth/odhlasenie' },
+  
 ];
 
 export default function Navbar() {
@@ -32,9 +46,17 @@ export default function Navbar() {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [value, setValue] = React.useState(0);
   const router = useRouter();
-  
-  const navItems = session ? authPaths : unauthPaths;
-  const userProfileImage = session?.user?.image;
+
+  // Explicitly ensure user image is a string or undefined
+  const userProfileImage = session?.user?.image ?? undefined;
+
+  const navItems = session ? authPaths(userProfileImage) : unauthPaths;
+
+  React.useEffect(() => {
+    if (session?.user) {
+      router.push('/prispevok');
+    }
+  }, [session, router]);
 
   return (
     <Box sx={{ width: '100%', position: 'fixed', bottom: 0, left: 0 }}>
@@ -69,29 +91,7 @@ export default function Navbar() {
         {isDarkMode ? <FaSun /> : <FaMoon />}
       </IconButton>
 
-      {session?.user && (
-        <Link href="/profil" passHref>
-          <IconButton sx={{
-            position: 'absolute',
-            top: 10,
-            right: 70,
-            borderRadius: '50%',
-            padding: 0,
-            backgroundColor: 'primary.main',
-            '&:hover': {
-              backgroundColor: 'primary.dark',
-            },
-          }}>
-            <Image
-              src={userProfileImage || '/default-avatar.png'}
-              alt="Profile"
-              width={40}
-              height={40}
-              style={{ borderRadius: '50%' }}
-            />
-          </IconButton>
-        </Link>
-      )}
+      
     </Box>
   );
 }
