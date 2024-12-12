@@ -12,24 +12,29 @@ import { useTheme } from "@/components/ThemeProvider";
 const RegisterPage = () => {
   const { isDarkMode, toggleDarkMode } = useTheme(); 
   const [isGDPRChecked, setIsGDPRChecked] = useState(false); 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleGoogleLogin = async () => {
-    if (!isGDPRChecked) {
-      setErrorMessage("Musíte súhlasiť s GDPR a podmienkami.");
-      return;
+    handleSubmit();  // Check the GDPR box before proceeding
+    if (isGDPRChecked) {
+      await signIn("google");
     }
-    setErrorMessage(""); // Clear error
-    await signIn("google");
   };
 
   const handleGitHubLogin = async () => {
-    if (!isGDPRChecked) {
-      setErrorMessage("Musíte súhlasiť s GDPR a podmienkami.");
-      return;
+    handleSubmit();  // Check the GDPR box before proceeding
+    if (isGDPRChecked) {
+      await signIn("github");
     }
-    setErrorMessage(""); // Clear error
-    await signIn("github");
+  };
+
+  const handleSubmit = () => {
+    if (!isGDPRChecked) {
+      setError("Musíte súhlasiť s podmienkami a GDPR.");
+    } else {
+      setError(""); 
+      // Proceed with registration or other actions
+    }
   };
 
   return (
@@ -104,7 +109,7 @@ const RegisterPage = () => {
                 >
                   GDPR
                 </Typography>
-              </Link> 
+              </Link>
               {" "}a{" "}
               <Link href="/podmienky" passHref>
                 <Typography 
@@ -125,15 +130,9 @@ const RegisterPage = () => {
           }
         />
 
-        {errorMessage && (
-          <Typography
-            sx={{
-              color: "red",
-              fontSize: "0.8rem",
-              marginBottom: "10px",
-            }}
-          >
-            {errorMessage}
+        {error && (
+          <Typography sx={{ color: "red", fontSize: "0.8rem", marginBottom: "10px" }}>
+            {error}
           </Typography>
         )}
 
@@ -151,13 +150,11 @@ const RegisterPage = () => {
             padding: "12px",
             borderRadius: "50px",
             transition: "all 0.3s ease",
-            backgroundColor: isGDPRChecked ? "#4285f4" : "#b0bec5", // Default gray if not checked
             "&:hover": {
-              backgroundColor: isGDPRChecked ? "#4285f4" : "#b0bec5", 
+              backgroundColor: "#4285f4",
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
             },
           }}
-          disabled={!isGDPRChecked}
         >
           <Image
             src={GoogleIcon}
@@ -182,13 +179,11 @@ const RegisterPage = () => {
             padding: "12px",
             borderRadius: "50px",
             transition: "all 0.3s ease",
-            backgroundColor: isGDPRChecked ? "#333" : "#b0bec5", // Default gray if not checked
             "&:hover": {
-              backgroundColor: isGDPRChecked ? "#333" : "#b0bec5", 
+              backgroundColor: "#333", 
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
             },
           }}
-          disabled={!isGDPRChecked}
         >
           <Image
             src={GitHubIcon}
