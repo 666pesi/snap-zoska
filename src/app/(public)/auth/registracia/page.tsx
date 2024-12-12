@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { Button, Box, Typography, IconButton, Checkbox, FormControlLabel } from "@mui/material"; 
+import { Button, Box, Typography, IconButton, Checkbox, FormControlLabel, Alert } from "@mui/material"; 
 import Image from "next/image"; 
 import GoogleIcon from "../../../../icon/google.svg"; 
 import GitHubIcon from "../../../../icon/github.svg"; 
@@ -131,9 +131,20 @@ const RegisterPage = () => {
         />
 
         {error && (
-          <Typography sx={{ color: "red", fontSize: "0.8rem", marginBottom: "10px" }}>
+          <Alert
+            severity="error"
+            sx={{
+              width: "100%", 
+              marginBottom: "20px", 
+              backgroundColor: "#f8d7da", 
+              borderRadius: "8px", 
+              color: "#721c24", 
+              fontSize: "0.85rem",
+              padding: "10px",
+            }}
+          >
             {error}
-          </Typography>
+          </Alert>
         )}
 
         <Button
