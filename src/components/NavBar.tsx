@@ -1,4 +1,3 @@
-// src/components/NavBar.tsx
 "use client"; // This marks the component as a client component
 
 import * as React from 'react';
@@ -7,24 +6,15 @@ import { useSession } from 'next-auth/react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import HomeIcon from '@mui/icons-material/Home';
-import PersonIcon from '@mui/icons-material/Person';
-import PostAddIcon from '@mui/icons-material/PostAdd';
-import LoginIcon from '@mui/icons-material/Login';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import LogoutIcon from '@mui/icons-material/Logout';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
 import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@/components/ThemeProvider'; // Import the custom useTheme hook
-import { FaHome, FaUser, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaSearch, FaPlusSquare } from 'react-icons/fa'; // Importing from React Icons (Common and widely used)
-
+import { useTheme } from '@/components/ThemeProvider';
+import { FaHome, FaUser, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaSearch, FaPlusSquare, FaMoon, FaSun } from 'react-icons/fa';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const unauthPaths = [
   { label: "Domov", icon: <FaHome />, path: '/' },
-  { label: "Gdpr", icon: <FaUser />, path: '/gdpr' },
   { label: "O mne", icon: <FaUser />, path: '/o-mne' },
-  { label: "Podmienky", icon: <FaUser />, path: '/podmienky' },
   { label: "Prihlásenie", icon: <FaSignInAlt />, path: '/auth/prihlasenie' },
   { label: "Registrácia", icon: <FaUserPlus />, path: '/auth/registracia' },
 ];
@@ -39,11 +29,12 @@ const authPaths = [
 
 export default function Navbar() {
   const { data: session } = useSession();
-  const { isDarkMode, toggleDarkMode } = useTheme(); // Access theme context
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [value, setValue] = React.useState(0);
   const router = useRouter();
   
   const navItems = session ? authPaths : unauthPaths;
+  const userProfileImage = session?.user?.image;
 
   return (
     <Box sx={{ width: '100%', position: 'fixed', bottom: 0, left: 0 }}>
@@ -62,7 +53,6 @@ export default function Navbar() {
         ))}
       </BottomNavigation>
 
-      {/* Dark mode toggle button */}
       <IconButton
         sx={{
           position: 'absolute',
@@ -70,11 +60,38 @@ export default function Navbar() {
           right: 20,
           backgroundColor: 'primary.main',
           color: 'white',
+          '&:hover': {
+            backgroundColor: 'primary.dark',
+          },
         }}
         onClick={toggleDarkMode}
       >
-        {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />} {/* Toggle between icons */}
+        {isDarkMode ? <FaSun /> : <FaMoon />}
       </IconButton>
+
+      {session?.user && (
+        <Link href="/profil" passHref>
+          <IconButton sx={{
+            position: 'absolute',
+            top: 10,
+            right: 70,
+            borderRadius: '50%',
+            padding: 0,
+            backgroundColor: 'primary.main',
+            '&:hover': {
+              backgroundColor: 'primary.dark',
+            },
+          }}>
+            <Image
+              src={userProfileImage || '/default-avatar.png'}
+              alt="Profile"
+              width={40}
+              height={40}
+              style={{ borderRadius: '50%' }}
+            />
+          </IconButton>
+        </Link>
+      )}
     </Box>
   );
 }

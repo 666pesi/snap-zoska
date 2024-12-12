@@ -1,10 +1,8 @@
-"use client"; // This marks the component as a client component
+"use client";
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline, IconButton } from '@mui/material'; // Removed unused imports
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
+import { CssBaseline } from '@mui/material';
 
 type ThemeContextType = {
   isDarkMode: boolean;
@@ -32,16 +30,20 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     palette: {
       mode: isDarkMode ? 'dark' : 'light',
       primary: {
-        main: isDarkMode ? '#673ab7' : '#1976d2', // A more balanced purple and blue primary color
+        main: isDarkMode ? '#800080' : '#9b27b0',
+        light: '#ba68c8',
+        dark: '#4a0072',
       },
       secondary: {
-        main: '#f50057', // A vivid pink color for secondary elements
+        main: isDarkMode ? '#b11226' : '#dc143c',
+        light: '#e57373',
+        dark: '#880000',
       },
       background: {
-        default: isDarkMode ? '#121212' : '#fafafa',
+        default: isDarkMode ? '#1e1e1e' : '#f8f4f9',
       },
       text: {
-        primary: isDarkMode ? '#ffffff' : '#000000',
+        primary: isDarkMode ? '#ffffff' : '#2d2d2d',
       },
     },
     components: {
@@ -49,10 +51,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         styleOverrides: {
           root: {
             '&:hover': {
-              backgroundColor: isDarkMode ? '#9c27b0' : '#1565c0', // Custom hover color
+              backgroundColor: isDarkMode ? '#9b1b30' : '#d81b60',
             },
-            borderRadius: '8px',  // Rounded corners for buttons
-            padding: '8px 16px',  // Padding for buttons
+            borderRadius: '10px',
+            padding: '10px 20px',
           },
         },
       },
@@ -60,7 +62,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         styleOverrides: {
           root: {
             '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.08)', // Subtle hover effect
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',
             },
           },
         },
@@ -75,17 +77,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
       <MuiThemeProvider theme={theme}>
-        <CssBaseline /> {/* Apply global CSS reset */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          height: '100vh', // Full viewport height
-          position: 'relative',
-        }}>
-          {children}
-        </div>
+        <CssBaseline />
+        {children}
       </MuiThemeProvider>
     </ThemeContext.Provider>
   );
