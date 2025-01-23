@@ -9,7 +9,6 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@/components/ThemeProvider';
 import { FaHome, FaUser, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaSearch, FaPlusSquare, FaMoon, FaSun } from 'react-icons/fa';
-import Link from 'next/link';
 import Image from 'next/image';
 
 const unauthPaths = [
