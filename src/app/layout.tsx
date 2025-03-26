@@ -1,34 +1,43 @@
-// src/app/layout.tsx
-
-import { Metadata } from "next";
+"use client";
 import "./globals.css";
-import Navbar from "@/components/NavBar";
-import AuthProvider from "../components/AuthProvider";
-import { ThemeProvider } from "@/components/ThemeProvider"; // Import the new ThemeProvider
 
-export const metadata: Metadata = {
-  title: "SnapZoška",
-  description: "Created by students of SPŠE Zochova 9, Bratislava",
-};
+import { ReactNode } from "react";
+import { ThemeProvider as CustomThemeProvider } from "@/context/ThemeProvider"; 
+import { CssBaseline } from "@mui/material"; 
+import Navbar from "@/components/NavBar"; 
+import AuthProvider from "@/components/AuthProvider"; 
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="sk">
-      <body>
-        <ThemeProvider> {/* Wrap everything with the ThemeProvider */}
+    <html lang="sk" style={{ height: "100%" }}> {/* Ensure html takes full height */}
+      <body
+        style={{
+          margin: 0,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <CustomThemeProvider>
+          <CssBaseline />
           <AuthProvider>
-            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-              <main style={{ flexGrow: 1 }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flexGrow: 1,
+              }}
+            >
+              <main
+                style={{
+                  flexGrow: 1, // Allow content to grow and fill available space
+                }}
+              >
                 {children}
               </main>
+              <Navbar /> {/* Navbar is part of layout */}
             </div>
-            <Navbar /> {/* Navbar will now have access to theme context */}
           </AuthProvider>
-        </ThemeProvider>
+        </CustomThemeProvider>
       </body>
     </html>
   );

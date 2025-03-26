@@ -1,28 +1,46 @@
-// src/app/gdpr/page.tsx
+"use client"; // This marks the component as a client component
 
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button'; // Import Button component
-import Link from 'next/link'; // Import Link component
+import { Button, Container, Box } from "@mui/material";
+import { useRouter } from "next/navigation";
 
-export const metadata = { title: "GDPR | ZoškaSnap" };
+export default function GDPR() {
+  const router = useRouter();
 
-export default function Gdpr() {
+  // Function to handle "Go Back" button
+  const handleGoBack = () => {
+    router.back(); // Goes to the previous page in history
+  };
+
   return (
-    <Box sx={{ padding: '20px' }}>
-      <Typography variant="h4" sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
-        ZoškaSnap GDPR Rules
-      </Typography>
-      <Typography variant="body1" sx={{ marginBottom: '10px' }}>
-        1. Potvrdzujete potvrdenie
-      </Typography>
+    <Container sx={{ padding: "20px", maxWidth: "lg" }}>
+      {/* GDPR Content */}
+      <Box sx={{ marginBottom: "20px" }}>
+        <h1>GDPR</h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor nunc vel ante tincidunt,
+          nec volutpat nisi condimentum. Vestibulum quis lectus id neque placerat auctor. Nulla facilisi.
+        </p>
+        <p>
+          Integer ac velit id ligula tempor feugiat non sed urna. Integer vestibulum nisi non eros mollis
+          scelerisque. Vivamus auctor vitae leo vel euismod.
+        </p>
+        <p>
+          Ut malesuada tortor ut ipsum euismod, sit amet dapibus nisi tempor. Sed vel felis malesuada, 
+          malesuada eros et, luctus lorem.
+        </p>
+      </Box>
 
-      {}
-      <Link href="/auth/registracia" passHref>
-        <Button variant="contained" color="primary" sx={{ marginTop: '20px' }}>
-          S5
+      {/* Go Back Button, aligned with text */}
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleGoBack}
+          sx={{ padding: "10px 20px", textTransform: "none" }}
+        >
+          Späť na predchádzajúcu stránku
         </Button>
-      </Link>
-    </Box>
+      </Box>
+    </Container>
   );
 }

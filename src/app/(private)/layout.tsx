@@ -1,17 +1,14 @@
-// src/app/(private)/layout.tsx
+import { ReactNode } from 'react';
+import AuthGuard from '../../components/AuthGuard'; // Import the AuthGuard component
 
-'use client';
+type PrivateLayoutProps = {
+  children: ReactNode;
+};
 
-import { ReactNode } from "react";
-import PrivateContent from "@/components/AuthGruard";
-
-export default function PrivateLayout({ children }: { children: ReactNode }) {
+export default function PrivateLayout({ children }: PrivateLayoutProps) {
   return (
-    <div>
-      <PrivateContent>
-        {}
-        {children}
-      </PrivateContent>
-    </div>
+    <AuthGuard>
+      <div>{children}</div> {/* Render the children (protected content) */}
+    </AuthGuard>
   );
 }

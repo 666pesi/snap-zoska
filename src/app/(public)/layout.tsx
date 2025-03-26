@@ -1,10 +1,14 @@
-// src/app/(public)/layout.tsx
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+type PublicLayoutProps = {
+  children: ReactNode;
+};
 
-export default function PublicLayout({ children }: { children: ReactNode }) {
+export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
-    <div>
-      {children}
-    </div>
+    <>
+
+      <div>{children}</div> {}
+
+    </>
   );
 }

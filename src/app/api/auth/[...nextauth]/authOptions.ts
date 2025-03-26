@@ -1,6 +1,7 @@
+// src/app/api/auth/[...nextauth]/authOptions.ts
+
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";  // Import GitHub provider
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 
@@ -11,19 +12,17 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
-    GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID || "",   // GitHub client ID
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || "", // GitHub client secret
-    }),
   ],
+  debug: true,
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/auth/prihlasenie',
-    signOut: '/auth/odhlasenie',
+    signIn: '/auth/prihlasenie', // Custom sign-in page
+    signOut: '/auth/odhlasenie', // Custom sign-out page
   },
   callbacks: {
-    async redirect() {
-      return "/prispevok";
+    async redirect({ baseUrl }: {baseUrl: string }) {
+      // Always redirect to /profil after sign-in
+      return baseUrl + '/prispevok'; // Redirecting to /profil page after sign-in
     },
   },
 };

@@ -1,13 +1,13 @@
-//src/app/profil/page.tsx
+//src/app/pridat/page.tsx
 
 import Typography from '@mui/material/Typography';
 
-export const metadata = { title: "Zoznam profilov | ZoškaSnap"};
+export const metadata = { title: "Formulár na pridanie | ZoškaSnap"};
 
-export default function ProfileList() {
+export default function FormularAdd() {
   return (
 
-      <Typography> Zoznam profilov </Typography>
+      <Typography> Profil </Typography>
     
   );
 
